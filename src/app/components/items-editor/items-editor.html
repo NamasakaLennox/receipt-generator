@@ -1,0 +1,36 @@
+<div class="head">
+  <h3>Items</h3>
+  <span class="total">Items total: <strong>KSh {{ state.itemsTotal() | number: '1.2-2' }}</strong></span>
+</div>
+
+<div class="rows">
+  @for (item of state.items(); track item.id; let i = $index) {
+    <div class="row">
+      <input type="text" class="desc" [placeholder]="'Item ' + (i + 1) + ', e.g. Kitenge dress'"
+             [value]="item.description" [attr.aria-label]="'Item ' + (i + 1) + ' description'"
+             (input)="state.updateItem(item.id, { description: $any($event.target).value })" />
+      <input type="number" class="qty" min="0" step="1" [value]="item.qty" aria-label="Quantity"
+             (input)="setQty(item.id, $any($event.target).value)" />
+      <input type="number" class="price" min="0" step="0.01" placeholder="Price" [value]="item.price ?? ''"
+             aria-label="Price" (input)="setPrice(item.id, $any($event.target).value)" />
+      <button type="button" class="icon-btn" (click)="state.removeItem(item.id)" [attr.aria-label]="'Remove item ' + (i + 1)">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" />
+        </svg>
+      </button>
+    </div>
+  }
+</div>
+
+@if (state.totalsMismatch()) {
+  <p class="warning">
+    The items add up to KSh {{ state.itemsTotal() | number: '1.2-2' }}, but the payment amount is
+    KSh {{ state.amount() | number: '1.2-2' }}. The receipt shows the payment amount as the total.
+  </p>
+}
+
+<hr />
+
+<button type="button" class="btn-soft" (click)="state.addItem()">
+  <span aria-hidden="true">+</span> Add another item
+</button>

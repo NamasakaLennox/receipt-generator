@@ -1,0 +1,48 @@
+<div class="section-head">
+  <span class="icon-badge" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      <path d="M8 9h8M8 13h5" />
+    </svg>
+  </span>
+  <h2>Paste payment message</h2>
+  <button type="button" class="link-btn" (click)="state.trySample()">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2" />
+    </svg>
+    Try a sample
+  </button>
+</div>
+
+<textarea
+  class="message"
+  rows="4"
+  [maxLength]="maxLength"
+  [value]="state.message()"
+  (input)="state.setMessage($any($event.target).value)"
+  placeholder="e.g. QBK7H2M9TX Confirmed. Ksh2,450.00 received from JANE WANJIKU 0712345678 on 19/10/26 at 12:42 PM..."
+  aria-label="Payment message"
+></textarea>
+
+<div class="meta">
+  <div class="source">
+    <label for="source">Message from</label>
+    <select id="source" (change)="state.setSource($any($event.target).value)">
+      @for (p of state.parsers; track p.id) {
+        <option [value]="p.id" [selected]="p.id === state.sourceId()">{{ p.label }}</option>
+      }
+    </select>
+    @switch (state.parseStatus()) {
+      @case ('parsed') {
+        <span class="status ok">Details filled in from {{ state.parser().label }} message</span>
+      }
+      @case ('failed') {
+        <span class="status warn">Looks like {{ state.parser().label }}, but some details couldn't be read. Please fill them in below.</span>
+      }
+      @case ('unrecognised') {
+        <span class="status warn">We don't recognise this message. Fill in the details manually.</span>
+      }
+    }
+  </div>
+  <span class="count">{{ state.message().length }}/{{ maxLength }}</span>
+</div>

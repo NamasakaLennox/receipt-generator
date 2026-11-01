@@ -1,0 +1,34 @@
+<dialog #dialog aria-labelledby="bd-title">
+  <form (ngSubmit)="save()">
+    <h2 id="bd-title">Business details</h2>
+    <p class="hint">These appear on every receipt and are saved on this device.</p>
+
+    <label for="bd-name">Business name</label>
+    <input id="bd-name" name="name" required [ngModel]="draft().name" (ngModelChange)="update('name', $event)" />
+
+    <label for="bd-tagline">Tagline</label>
+    <input id="bd-tagline" name="tagline" [ngModel]="draft().tagline" (ngModelChange)="update('tagline', $event)" />
+
+    <div class="two">
+      <div>
+        <label for="bd-location">Location</label>
+        <input id="bd-location" name="location" [ngModel]="draft().location" (ngModelChange)="update('location', $event)" />
+      </div>
+      <div>
+        <label for="bd-phone">Phone</label>
+        <input id="bd-phone" name="phone" type="tel" [ngModel]="draft().phone" (ngModelChange)="update('phone', $event)" />
+      </div>
+    </div>
+
+    <label for="bd-thanks">Thank-you note</label>
+    <input id="bd-thanks" name="thankYouNote" [ngModel]="draft().thankYouNote" (ngModelChange)="update('thankYouNote', $event)" />
+
+    <label for="bd-footer">Footer</label>
+    <input id="bd-footer" name="footer" [ngModel]="draft().footer" (ngModelChange)="update('footer', $event)" />
+
+    <div class="buttons">
+      <button type="button" class="btn-outline" (click)="close()">Cancel</button>
+      <button type="submit" class="btn-primary">Save</button>
+    </div>
+  </form>
+</dialog>

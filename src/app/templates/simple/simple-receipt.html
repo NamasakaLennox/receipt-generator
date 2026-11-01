@@ -1,0 +1,65 @@
+@let v = view();
+<article class="paper">
+  <header>
+    <h1>{{ v.business.name || 'My Business' }}</h1>
+    @if (v.business.tagline) { <p>{{ v.business.tagline }}</p> }
+    @if (v.business.location) { <p>{{ v.business.location }}</p> }
+    @if (v.business.phone) { <p>Tel: {{ v.business.phone }}</p> }
+  </header>
+
+  <h2 class="title">Payment Receipt</h2>
+
+  <dl>
+    <div><dt>Receipt No:</dt><dd>{{ v.receiptNumber }}</dd></div>
+    <div><dt>Date:</dt><dd>{{ v.dateTime ? (v.dateTime | date: 'd MMM y, h:mm a') : '—' }}</dd></div>
+    <div><dt>Payment method:</dt><dd>{{ v.sourceLabel }}</dd></div>
+  </dl>
+
+  <dl>
+    <div>
+      <dt>{{ v.direction === 'received' ? 'Received from:' : 'Paid to:' }}</dt>
+      <dd>{{ v.counterpartyName || '—' }}</dd>
+    </div>
+    @if (v.counterpartyPhone) {
+      <div><dt>Phone:</dt><dd>{{ v.counterpartyPhone }}</dd></div>
+    }
+    @if (v.account) {
+      <div><dt>Account No:</dt><dd>{{ v.account }}</dd></div>
+    }
+    <div><dt>{{ v.refLabel }}:</dt><dd class="mono">{{ v.transactionId || '—' }}</dd></div>
+    @if (v.secondaryRefLabel && v.secondaryRef) {
+      <div><dt>{{ v.secondaryRefLabel }}:</dt><dd class="mono">{{ v.secondaryRef }}</dd></div>
+    }
+  </dl>
+
+  <table>
+    <thead>
+      <tr><th>Description</th><th class="num">Amount (KSh)</th></tr>
+    </thead>
+    <tbody>
+      @for (item of v.items; track $index) {
+        <tr>
+          <td>
+            {{ item.description }}
+            @if (item.qty > 1) {
+              <span class="qty">{{ item.qty }} × {{ item.price | number: '1.2-2' }}</span>
+            }
+          </td>
+          <td class="num">{{ item.lineTotal | number: '1.2-2' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="total">
+    <span>Total Paid</span>
+    <strong>KSh {{ v.total | number: '1.2-2' }}</strong>
+  </div>
+
+  @if (v.business.thankYouNote) { <p class="thanks">{{ v.business.thankYouNote }}</p> }
+
+  <footer>
+    @if (v.business.footer) { <span>{{ v.business.footer }}</span><span class="sep">|</span> }
+    <span>{{ v.business.name || 'My Business' }}</span>
+  </footer>
+</article>

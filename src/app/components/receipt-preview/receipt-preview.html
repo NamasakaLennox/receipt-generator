@@ -1,0 +1,56 @@
+<div class="head">
+  <h2>
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" />
+    </svg>
+    Receipt preview
+  </h2>
+  <button type="button" class="btn-outline small" (click)="cycleTemplate()" [disabled]="templates.length < 2"
+          [title]="templates.length < 2 ? 'More templates coming soon' : 'Switch template'">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" />
+    </svg>
+    Choose template
+  </button>
+</div>
+<p class="sub">
+  Template: <strong>{{ template().label }}</strong> ·
+  <button type="button" class="link-btn inline" (click)="editBusiness()">Edit business details</button>
+</p>
+
+<div class="stage">
+  <div #paper class="paper-wrap">
+    <ng-container *ngComponentOutlet="template().component; inputs: { view: state.view() }" />
+  </div>
+</div>
+
+<div class="actions">
+  <button type="button" class="btn-outline" (click)="share()" [disabled]="busy()">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" />
+    </svg>
+    Share receipt
+  </button>
+
+  <div class="download">
+    <button type="button" class="btn-primary" (click)="toggleMenu($event)" [disabled]="busy()"
+            aria-haspopup="menu" [attr.aria-expanded]="menuOpen()">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12M7 10l5 5 5-5M4 19h16" />
+      </svg>
+      {{ busy() ? 'Working…' : 'Download Receipt' }}
+    </button>
+    @if (menuOpen()) {
+      <div class="menu" role="menu" (click)="$event.stopPropagation()">
+        <button type="button" role="menuitem" (click)="download('pdf')">PDF document</button>
+        <button type="button" role="menuitem" (click)="download('png')">Image (PNG)</button>
+      </div>
+    }
+  </div>
+</div>
+
+@if (notice()) {
+  <p class="notice" role="status">{{ notice() }}</p>
+}
+
+<app-business-details-dialog />

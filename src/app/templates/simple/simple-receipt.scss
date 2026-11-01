@@ -1,0 +1,103 @@
+:host {
+  display: block;
+  --ink: #1d2320;
+  --ink-soft: #5b625e;
+  --rule: #d8dcd9;
+  --green: #1f6b3c;
+}
+
+.paper {
+  position: relative;
+  background: #fff;
+  color: var(--ink);
+  padding: 2rem 1.75rem 2.25rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.06);
+
+  // Torn-paper zig-zag edges top and bottom.
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: radial-gradient(circle at 6px 0, transparent 6px, #fff 6.5px) repeat-x;
+    background-size: 12px 10px;
+  }
+  &::before { top: -10px; transform: scaleY(-1); }
+  &::after { bottom: -10px; }
+}
+
+header {
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--rule);
+
+  h1 { margin: 0 0 0.35rem; font-size: 1.375rem; font-weight: 700; }
+  p { margin: 0.1rem 0; color: var(--ink-soft); }
+}
+
+.title {
+  text-align: center;
+  letter-spacing: 0.3em;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 1.25rem 0 1rem;
+}
+
+dl {
+  margin: 0;
+  padding: 0.25rem 0 1rem;
+  border-bottom: 1px dashed var(--rule);
+  & + dl { padding-top: 1rem; }
+
+  div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.3rem 0; }
+  dt { color: var(--ink-soft); white-space: nowrap; }
+  dd { margin: 0; text-align: right; word-break: break-word; }
+}
+
+.mono { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+
+  th {
+    text-align: left;
+    font-weight: 600;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  td { padding: 0.7rem 0; vertical-align: top; }
+  tbody tr:last-child td { padding-bottom: 1rem; border-bottom: 1px dashed var(--rule); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody .num { font-weight: 600; }
+  .qty { display: block; font-size: 0.75rem; color: var(--ink-soft); }
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  padding: 1.25rem 0 0.75rem;
+
+  span { font-size: 1.125rem; font-weight: 700; }
+  strong { font-size: 1.6rem; color: var(--green); font-variant-numeric: tabular-nums; }
+}
+
+.thanks { text-align: center; margin: 0.5rem 0 1rem; }
+
+footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  border-top: 1px dashed var(--rule);
+  padding-top: 1rem;
+  .sep { margin: 0 0.5rem; }
+}

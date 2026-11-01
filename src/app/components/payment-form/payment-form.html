@@ -1,0 +1,58 @@
+<div class="direction" role="radiogroup" aria-label="Payment direction">
+  <button type="button" role="radio" [attr.aria-checked]="state.direction() === 'received'"
+          [class.active]="state.direction() === 'received'" (click)="state.direction.set('received')">
+    Money received
+  </button>
+  <button type="button" role="radio" [attr.aria-checked]="state.direction() === 'sent'"
+          [class.active]="state.direction() === 'sent'" (click)="state.direction.set('sent')">
+    Money paid
+  </button>
+</div>
+
+<div class="grid">
+  <div class="field" [class.full]="!state.parser().secondaryRefLabel">
+    <label for="txn">{{ state.parser().refLabel }}</label>
+    <input id="txn" type="text" placeholder="QBK7H2M9TX" [value]="state.transactionId()"
+           (input)="state.transactionId.set($any($event.target).value)" />
+  </div>
+
+  @if (state.parser().secondaryRefLabel) {
+    <div class="field">
+      <label for="ref2">{{ state.parser().secondaryRefLabel }}</label>
+      <input id="ref2" type="text" [value]="state.secondaryRef()"
+             (input)="state.secondaryRef.set($any($event.target).value)" />
+    </div>
+  }
+
+  <div class="field">
+    <label for="amount">Amount (KSh)</label>
+    <input id="amount" type="number" min="0" step="0.01" placeholder="0.00" [value]="state.amount() ?? ''"
+           (input)="setAmount($any($event.target).value)" />
+  </div>
+
+  <div class="field">
+    <label for="name">{{ state.direction() === 'received' ? 'Customer name' : 'Paid to' }}</label>
+    <input id="name" type="text" placeholder="Jane Wanjiku" [value]="state.counterpartyName()"
+           (input)="state.counterpartyName.set($any($event.target).value)" />
+  </div>
+
+  <div class="field">
+    <label for="phone">Phone number</label>
+    <input id="phone" type="tel" placeholder="0712 345 678" [value]="state.counterpartyPhone()"
+           (input)="state.counterpartyPhone.set($any($event.target).value)" />
+  </div>
+
+  <div class="field">
+    <label for="dt">Date and time</label>
+    <input id="dt" type="datetime-local" [value]="state.dateTime()"
+           (input)="state.dateTime.set($any($event.target).value)" />
+  </div>
+
+  @if (state.account() || state.direction() === 'sent') {
+    <div class="field full">
+      <label for="account">Account number <span class="optional">(paybill, optional)</span></label>
+      <input id="account" type="text" placeholder="e.g. meter or account number" [value]="state.account()"
+             (input)="state.account.set($any($event.target).value)" />
+    </div>
+  }
+</div>

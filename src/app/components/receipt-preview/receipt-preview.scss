@@ -1,0 +1,86 @@
+:host { display: block; }
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    font-size: 1.25rem;
+  }
+}
+
+.small { padding: 0.5rem 0.85rem; font-size: 0.875rem; }
+
+.sub {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  strong { color: var(--text); }
+}
+
+.stage {
+  background: var(--surface-2);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+}
+
+.paper-wrap {
+  max-width: 360px;
+  margin: 0 auto;
+  // Room for the zig-zag edges when exporting.
+  padding: 10px 0;
+  background: transparent;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+
+  > button, .download > button { width: 100%; justify-content: center; padding: 0.85rem 0.75rem; font-size: 0.95rem; white-space: nowrap; }
+}
+
+.download { position: relative; }
+
+.menu {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  overflow: hidden;
+  z-index: 5;
+
+  button {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: none;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+    &:hover, &:focus-visible { background: var(--surface-2); }
+  }
+}
+
+.notice {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  color: var(--accent);
+  text-align: center;
+}
+
+@media (max-width: 420px) {
+  .actions { grid-template-columns: 1fr; }
+}

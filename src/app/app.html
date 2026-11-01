@@ -1,1 +1,18 @@
-<h1>Receipt Generator</h1>
+<main class="page">
+  <header class="intro">
+    <h1>Create a receipt</h1>
+    <p>Paste an M-PESA, Equity Bank or I&amp;M Bank message and confirm the details to generate a professional receipt.</p>
+  </header>
+
+  <div class="layout">
+    <section class="card" aria-label="Payment details">
+      <app-message-input />
+      <app-payment-form />
+      <app-items-editor />
+    </section>
+
+    <section class="card preview" aria-label="Receipt preview">
+      <app-receipt-preview />
+    </section>
+  </div>
+</main>
